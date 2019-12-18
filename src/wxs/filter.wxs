@@ -1,0 +1,12 @@
+var Filter = {
+  'gander': function (value) {
+    if (value == 1) {
+      return '男'
+    } else if (value == 2) {
+      return '女'
+    } else {
+      return '未知'
+    }
+  }
+}
+module.exports = Filter;

@@ -1,0 +1,76 @@
+
+<template lang="wxml">
+    <view>      
+        <view style="border:1px solid #ddd;padding:10px;margin:10px;">
+            <view>
+                <text>当前语言：{{lang}}</text>
+                <button @tap='onChangeLang'>切换语言</button>
+            </view>
+            <view>
+                主页Label:{{locate.tabBar.index}}
+            </view>
+            <view>
+                我的Label:{{Filter.gander(2)}}
+            </view>          
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+import { connect } from 'wepy-redux';
+import { SETLANG, GETLOCATE } from '../store/types/lang';
+import { getShopList } from '../store/actions';
+import Filter from '../wxs/filter.wxs';
+@connect(
+  {
+    locate(state) {
+      return state.lang.locate;
+    },
+    lang(state) {
+      return state.lang.lang;
+    }
+  },
+  {
+    getShopList: getShopList
+  }
+)
+export default class Language extends wepy.page {
+  wxs = {
+    Filter
+  };
+  components = {};
+  computed = {
+    todoList() {
+      return wepy.$store.getState().list;
+    }
+  };
+  data = {};
+  methods = {
+    onChangeLang() {
+      console.log('当前语言：', this.locate);
+      let setLang = this.lang == 'zh-CN' ? 'en-US' : 'zh-CN';
+      wepy.$store.dispatch({
+        type: 'SETLANG',
+        payload: setLang
+      });
+    },
+    onNavigateToMine() {
+      wepy.navigateTo({
+        url: '/pages/mine'
+      });
+    }
+  };
+  onLoad() {
+    console.log('Store State:', wepy.$store.getState());
+    console.log('当前语言：', this.lang);
+    this.methods.getShopList('christmas').then(res => {
+      console.log('好店推荐：', res.payload.data);
+    });
+  }
+}
+</script>
+
+<style lang="less">
+
+</style>

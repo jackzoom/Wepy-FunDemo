@@ -1,0 +1,46 @@
+
+<template lang="wxml">
+    <view>
+        <movable-area style="pointer-events: none;height: 100%;width: 100%;position:absolute;left:0px;top:0px;background: transparent;">
+            <movable-view @touchstart="onTouchStart" @touchend="onTouchOut" @change="onMovableChange" x="{{x}}" y="{{y}}" disabled="{{disabled}}" direction="all" style="pointer-events: auto;height: 50px; width: 50px; background: #fe5c5c;border-radius:50%;box-sizing:border-box;z-index: 1;"></movable-view>
+        </movable-area>        
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class FixedTouch extends wepy.page {
+  data = {
+    disabled: false,
+    isEndMove: false,
+    x: 20,
+    y: 20
+  };
+  methods = {
+    onTouchStart(e) {
+      this.isEndMove = false;
+      this.disabled = false;
+      this.$apply();
+    },
+    onTouchOut(e) {
+      let targetX = wx.getSystemInfoSync().screenWidth;
+      this.x = targetX;
+      this.isEndMove = true;
+      this.disabled = true;
+      this.$apply();
+    },
+    onMovableChange(e) {
+      if (!this.isEndMove) {
+        this.x = e.detail.x;
+        this.y = e.detail.y;
+        this.$apply();
+      }
+    },   
+  };
+  onLoad() {   
+  }
+}
+</script>
+
+<style lang="less">
+</style>

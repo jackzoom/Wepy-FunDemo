@@ -1,0 +1,65 @@
+
+<template lang="wxml">
+    <view style="border:1px solid #ddd;padding:10px;margin:10px;">
+        <text>Demo 演示</text>
+        <view class="demo-container">
+            <navigator class="demo-button" url="/pages/language">
+                <text>国际化</text>
+            </navigator>
+            <navigator class="demo-button" url="/pages/store">
+                <text>Store Demo</text>
+            </navigator>
+            <navigator class="demo-button" url="/pages/fixedtouch">
+                <text>屏幕固定悬浮球</text>
+            </navigator>    
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+export default class Index extends wepy.page {
+  methods = {};
+  onLoad() {
+    console.log('Store State:', wepy.$store.getState());
+  }
+}
+</script>
+
+<style lang="less">
+.demo-container {
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+.demo-button {
+  flex: 0 0 33.33333%;
+  text {
+    display: block;
+    background: #fe5c5c;
+    color: #fff;
+    line-height: 60rpx;
+    height: 60rpx;
+    text-align: center;
+    border-radius: 10rpx;
+    margin: 5rpx 10rpx;
+  }
+  &:nth-child(3n) {
+    text {
+      margin-right: 0;
+    }
+  }
+  &:nth-child(3n + 1) {
+    text {
+      margin-left: 0;
+    }
+  }
+  &:nth-child(3n-1) {
+    text {      
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+</style>
